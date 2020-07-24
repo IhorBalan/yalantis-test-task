@@ -40,7 +40,7 @@ const App = () => {
       .catch((error) => {
         alert(`Cannot access data. Error: ${error}`);
       });
-  }, [setUsersByMonth]);
+  }, []);
 
   const handleMonthEnter = (month) => {
     setActiveMonth(MONTHS.indexOf(month));
