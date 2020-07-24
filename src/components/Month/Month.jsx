@@ -3,18 +3,16 @@ import PropTypes from "prop-types";
 //styles
 import "./Month.scss";
 
-class Month extends React.Component {
-  handleMouseEnter = () => {
-    this.props.onMouseEnter(this.props.month);
+const Month = ({ onMouseEnter, onMouseLeave, month, length }) => {
+  const handleMouseEnter = () => {
+    onMouseEnter(month);
   };
 
-  handleMouseLeave = () => {
-    this.props.onMouseLeave();
+  const handleMouseLeave = () => {
+    onMouseLeave();
   };
 
-  getClassName = () => {
-    const { length } = this.props;
-
+  const getClassName = () => {
     if (length === undefined) return "gray";
 
     return length > 10
@@ -26,18 +24,16 @@ class Month extends React.Component {
       : "gray";
   };
 
-  render() {
-    return (
-      <div
-        className={`months__month ${this.getClassName()}`}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-      >
-        {this.props.month}
-      </div>
-    );
-  }
-}
+  return (
+    <div
+      className={`months__month ${getClassName()}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {month}
+    </div>
+  );
+};
 
 Month.propTypes = {
   month: PropTypes.string.isRequired,
