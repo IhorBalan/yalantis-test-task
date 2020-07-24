@@ -7,7 +7,7 @@ import { getUsers } from "./services/api";
 // styles
 import "./App.scss";
 
-const months = [
+const MONTHS = [
   "January",
   "February",
   "March",
@@ -32,7 +32,7 @@ class App extends React.Component {
     getUsers()
       .then((response) => {
         let tempNumUsersArray = [];
-        for (let i = 0; i < months.length; i++) {
+        for (let i = 0; i < MONTHS.length; i++) {
           tempNumUsersArray.push(
             response.data.filter((user) => new Date(user.dob).getMonth() === i)
           );
@@ -48,7 +48,7 @@ class App extends React.Component {
 
   handleMonthEnter = (month) => {
     this.setState({
-      activeMonth: months.indexOf(month),
+      activeMonth: MONTHS.indexOf(month),
     });
   };
 
@@ -64,7 +64,7 @@ class App extends React.Component {
     return (
       <div className="app">
         <div className="months">
-          {months.map((month, index) => (
+          {MONTHS.map((month, index) => (
             <Month
               month={month}
               key={index}
