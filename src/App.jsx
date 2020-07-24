@@ -40,7 +40,7 @@ const App = () => {
       .catch((error) => {
         alert(`Cannot access data. Error: ${error}`);
       });
-  });
+  }, [setUsersByMonth]);
 
   const handleMonthEnter = (month) => {
     setActiveMonth(MONTHS.indexOf(month));
@@ -64,7 +64,9 @@ const App = () => {
         ))}
       </div>
       <div className="user-list">
-        {activeMonth !== null && <UserList users={usersByMonth[activeMonth]} />}
+        {activeMonth !== null && usersByMonth !== [] && (
+          <UserList users={usersByMonth[activeMonth]} />
+        )}
       </div>
     </div>
   );
