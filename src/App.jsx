@@ -59,6 +59,8 @@ class App extends React.Component {
   };
 
   render() {
+    const { usersByMonth, activeMonth } = this.state;
+
     return (
       <div className="app">
         <div className="months">
@@ -66,19 +68,15 @@ class App extends React.Component {
             <Month
               month={month}
               key={index}
-              length={
-                this.state.usersByMonth[index]
-                  ? this.state.usersByMonth[index].length
-                  : 0
-              }
+              length={usersByMonth[index] ? usersByMonth[index].length : 0}
               onMouseLeave={this.clearList}
               onMouseEnter={this.handleMonthEnter}
             />
           ))}
         </div>
         <div className="user-list">
-          {this.state.activeMonth !== null && (
-            <UserList users={this.state.usersByMonth[this.state.activeMonth]} />
+          {activeMonth !== null && (
+            <UserList users={usersByMonth[activeMonth]} />
           )}
         </div>
       </div>

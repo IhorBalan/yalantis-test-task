@@ -13,13 +13,15 @@ class Month extends React.Component {
   };
 
   getClassName = () => {
-    if (this.props.length === undefined) return "gray";
+    const { length } = this.props;
 
-    return this.props.length > 10
+    if (length === undefined) return "gray";
+
+    return length > 10
       ? "red"
-      : this.props.length > 6
+      : length > 6
       ? "green"
-      : this.props.length > 2
+      : length > 2
       ? "blue"
       : "gray";
   };
