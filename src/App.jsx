@@ -24,9 +24,8 @@ const months = [
 
 class App extends React.Component {
   state = {
-    users: [],
     showUsers: [],
-    numUsersByMonth: [],
+    usersByMonth: [],
   };
 
   componentDidMount() {
@@ -36,12 +35,10 @@ class App extends React.Component {
         for (let i = 0; i < months.length; i++) {
           tempNumUsersArray.push(
             response.data.filter((user) => new Date(user.dob).getMonth() === i)
-              .length
           );
         }
         this.setState({
-          users: response.data,
-          numUsersByMonth: [...tempNumUsersArray],
+          usersByMonth: [...tempNumUsersArray],
         });
       })
       .catch((error) => {
@@ -51,9 +48,7 @@ class App extends React.Component {
 
   handleMonthEnter = (month) => {
     this.setState({
-      showUsers: this.state.users.filter(
-        (user) => new Date(user.dob).getMonth() === months.indexOf(month)
-      ),
+      showUsers: this.state.usersByMonth[months.indexOf(month)],
     });
   };
 
@@ -71,7 +66,11 @@ class App extends React.Component {
             <Month
               month={month}
               key={index}
-              length={this.state.numUsersByMonth[index]}
+              length={
+                this.state.usersByMonth[index]
+                  ? this.state.usersByMonth[index].length
+                  : 0
+              }
               onMouseLeave={this.clearList}
               onMouseEnter={this.handleMonthEnter}
             />
