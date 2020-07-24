@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // components
 import Month from "./components/Month";
 import UserList from "./components/UserList";
@@ -22,66 +22,52 @@ const MONTHS = [
   "December",
 ];
 
-class App extends React.Component {
-  state = {
-    activeMonth: null,
-    usersByMonth: [],
-  };
+const App = () => {
+  const [activeMonth, setActiveMonth] = useState(null);
+  const [usersByMonth, setUsersByMonth] = useState([]);
 
-  componentDidMount() {
+  useEffect(() => {
     getUsers()
-      .then((response) => {
+      .then(({ data }) => {
         let tempNumUsersArray = [];
         for (let i = 0; i < MONTHS.length; i++) {
           tempNumUsersArray.push(
-            response.data.filter((user) => new Date(user.dob).getMonth() === i)
+            data.filter((user) => new Date(user.dob).getMonth() === i)
           );
         }
-        this.setState({
-          usersByMonth: [...tempNumUsersArray],
-        });
+        setUsersByMonth(tempNumUsersArray);
       })
       .catch((error) => {
         alert(`Cannot access data. Error: ${error}`);
       });
-  }
+  });
 
-  handleMonthEnter = (month) => {
-    this.setState({
-      activeMonth: MONTHS.indexOf(month),
-    });
+  const handleMonthEnter = (month) => {
+    setActiveMonth(MONTHS.indexOf(month));
   };
 
-  clearList = () => {
-    this.setState({
-      activeMonth: null,
-    });
+  const clearList = () => {
+    setActiveMonth(null);
   };
 
-  render() {
-    const { usersByMonth, activeMonth } = this.state;
-
-    return (
-      <div className="app">
-        <div className="months">
-          {MONTHS.map((month, index) => (
-            <Month
-              month={month}
-              key={index}
-              length={usersByMonth[index] ? usersByMonth[index].length : 0}
-              onMouseLeave={this.clearList}
-              onMouseEnter={this.handleMonthEnter}
-            />
-          ))}
-        </div>
-        <div className="user-list">
-          {activeMonth !== null && (
-            <UserList users={usersByMonth[activeMonth]} />
-          )}
-        </div>
+  return (
+    <div className="app">
+      <div className="months">
+        {MONTHS.map((month, index) => (
+          <Month
+            month={month}
+            key={index}
+            length={usersByMonth[index] ? usersByMonth[index].length : 0}
+            onMouseLeave={clearList}
+            onMouseEnter={handleMonthEnter}
+          />
+        ))}
       </div>
-    );
-  }
-}
+      <div className="user-list">
+        {activeMonth !== null && <UserList users={usersByMonth[activeMonth]} />}
+      </div>
+    </div>
+  );
+};
 
 export default App;
