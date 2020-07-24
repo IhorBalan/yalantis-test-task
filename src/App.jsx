@@ -24,7 +24,7 @@ const months = [
 
 class App extends React.Component {
   state = {
-    showUsers: [],
+    activeMonth: null,
     usersByMonth: [],
   };
 
@@ -48,13 +48,13 @@ class App extends React.Component {
 
   handleMonthEnter = (month) => {
     this.setState({
-      showUsers: this.state.usersByMonth[months.indexOf(month)],
+      activeMonth: months.indexOf(month),
     });
   };
 
   clearList = () => {
     this.setState({
-      showUsers: [],
+      activeMonth: null,
     });
   };
 
@@ -77,7 +77,9 @@ class App extends React.Component {
           ))}
         </div>
         <div className="user-list">
-          <UserList users={this.state.showUsers} />
+          {this.state.activeMonth !== null && (
+            <UserList users={this.state.usersByMonth[this.state.activeMonth]} />
+          )}
         </div>
       </div>
     );
