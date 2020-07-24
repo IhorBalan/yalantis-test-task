@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+//styles
 import "./UserList.scss";
 
 class UserList extends React.Component {

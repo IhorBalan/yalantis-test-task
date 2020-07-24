@@ -1,7 +1,10 @@
 import React from "react";
-import { getUsers } from "./services/api";
+// components
 import Month from "./components/Month";
 import UserList from "./components/UserList";
+//services
+import { getUsers } from "./services/api";
+// styles
 import "./App.scss";
 
 const months = [
