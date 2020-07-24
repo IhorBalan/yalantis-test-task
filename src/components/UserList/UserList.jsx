@@ -14,6 +14,7 @@ const UserList = ({ users }) => (
     })}
   </div>
 );
+
 UserList.propTypes = {
   users: PropTypes.array,
 };
