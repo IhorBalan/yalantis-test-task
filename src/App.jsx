@@ -64,7 +64,9 @@ const App = () => {
         ))}
       </div>
       <div className="user-list">
-        {activeMonth !== null && <UserList users={usersByMonth[activeMonth]} />}
+        {activeMonth !== null && usersByMonth !== [] && (
+          <UserList users={usersByMonth[activeMonth]} />
+        )}
       </div>
     </div>
   );
