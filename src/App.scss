@@ -1,0 +1,17 @@
+$backgroundColor: #EFE5DC;
+
+@mixin flex {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  justify-content: center;
+  max-width: 800px;
+}
+
+.months, .user-list {
+  @include flex;
+}
+
+body {
+  background-color: $backgroundColor;
+}

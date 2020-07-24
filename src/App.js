@@ -1,70 +1,84 @@
-import React from 'react';
-import logo from './logo.svg';
+import React from "react";
+import { getUsers } from "./services/api";
 import Month from "./components/Month";
-import Description from "./components/Description";
-import './scss/App.scss';
+import UserList from "./components/UserList";
+import "./App.scss";
 
 const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
-const axios = require('axios').default;
-
 class App extends React.Component {
-  constructor(props) {
-      super(props);
-      this.state = {
-          users: [],
-          showUsers: []
-      }
-  }
+  state = {
+    users: [],
+    showUsers: [],
+    numUsersByMonth: [],
+  };
 
   componentDidMount() {
-      axios.get('https://yalantis-react-school-api.yalantis.com/api/task0/users')
-          .then(response => {
-              this.setState({
-                  users: response.data
-              })
-          })
-          .catch(error => {
-              console.log(error);
-          })
+    getUsers()
+      .then((response) => {
+        let tempNumUsersArray = [];
+        for (let i = 0; i < months.length; i++) {
+          tempNumUsersArray.push(
+            response.data.filter((user) => new Date(user.dob).getMonth() === i)
+              .length
+          );
+        }
+        this.setState({
+          users: response.data,
+          numUsersByMonth: [...tempNumUsersArray],
+        });
+      })
+      .catch((error) => {
+        alert(`Cannot access data. Error: ${error}`);
+      });
   }
 
-  handleHover = (month = '') => {
-      if (months.indexOf(month) === -1){
-          this.setState({
-              showUsers: []
-          })
-          return;
-      }
+  handleMonthEnter = (month) => {
     this.setState({
-        showUsers: this.state.users.filter(user => new Date(user.dob).getMonth() === months.indexOf(month))
+      showUsers: this.state.users.filter(
+        (user) => new Date(user.dob).getMonth() === months.indexOf(month)
+      ),
     });
-  }
+  };
 
-    render(){
-      return <div className="App">
-          <div className="Months">
-              {months.map((month, index) =>
-                  <Month month={month} key={index} index={months.indexOf(month)} users={this.state.users} handleHover={this.handleHover} />
-              )}
-          </div>
-          <div>
-              <Description users={this.state.showUsers} />
-          </div>
-      </div>;
+  clearList = () => {
+    this.setState({
+      showUsers: [],
+    });
+  };
+
+  render() {
+    return (
+      <div className="app">
+        <div className="months">
+          {months.map((month, index) => (
+            <Month
+              month={month}
+              key={index}
+              length={this.state.numUsersByMonth[index]}
+              onMouseLeave={this.clearList}
+              onMouseEnter={this.handleMonthEnter}
+            />
+          ))}
+        </div>
+        <div className="user-list">
+          <UserList users={this.state.showUsers} />
+        </div>
+      </div>
+    );
   }
 }
 

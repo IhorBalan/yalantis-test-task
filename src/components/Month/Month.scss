@@ -1,0 +1,41 @@
+$colorGray: #BAC1B8;
+$colorBlue: #58A4B0;
+$colorGreen: #0C7C59;
+$colorRed: #D64933;
+
+@each $color in gray, blue, green, red {
+  .#{$color} {
+    color: #FBFEFB;
+  }
+}
+
+.gray {
+  background-color: $colorGray !important;
+}
+
+.blue {
+  background-color: $colorBlue !important;
+}
+
+.green {
+  background-color: $colorGreen !important;
+}
+
+.red {
+  background-color: $colorRed !important;
+}
+
+.months__month{
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  border-radius: 10px;
+  cursor: help;
+  text-align: center;
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+}
+

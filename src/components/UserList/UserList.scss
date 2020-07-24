@@ -1,0 +1,50 @@
+.user-list__item {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  display: flex;
+  background-color: #00A4DE;
+  color: white;
+  margin: 0 20px 20px 20px;
+  padding: 0 30px;
+  width: 140px;
+
+  &:before {
+    background-color: #007BA6;
+    display: block;
+    content: "";
+    border-radius: 50%;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: -15px;
+    top: 0;
+  }
+
+  &:after {
+    background-color: #EFE5DC;
+    display: block;
+    content: "";
+    transform: rotate(45deg);
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    bottom: 0;
+    right: -15px;
+  }
+}
+
+
+@mixin flex {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  justify-content: center;
+  max-width: 800px;
+}
+
+.user-list__list {
+  @include flex;
+  padding-left: 20px;
+}
