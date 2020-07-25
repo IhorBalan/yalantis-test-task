@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 // components
 import Month from "./components/Month";
 import UserList from "./components/UserList";
@@ -7,7 +7,7 @@ import { getUsers } from "./services/api";
 // styles
 import "./App.scss";
 
-const MONTHS = [
+const months = [
   "January",
   "February",
   "March",
@@ -29,42 +29,44 @@ const App = () => {
   useEffect(() => {
     getUsers()
       .then(({ data }) => {
-        let tempNumUsersArray = [];
-        for (let i = 0; i < MONTHS.length; i++) {
-          tempNumUsersArray.push(
-            data.filter((user) => new Date(user.dob).getMonth() === i)
+        const _usersByMonth = new Array(months.length).fill([]);
+
+        _usersByMonth.forEach((_, index) => {
+          _usersByMonth[index] = data.filter(
+            (user) => new Date(user.dob).getMonth() === index
           );
-        }
-        setUsersByMonth(tempNumUsersArray);
+        });
+
+        setUsersByMonth(_usersByMonth);
       })
       .catch((error) => {
         alert(`Cannot access data. Error: ${error}`);
       });
   }, []);
 
-  const handleMonthEnter = (month) => {
-    setActiveMonth(MONTHS.indexOf(month));
-  };
+  const handleMonthEnter = useCallback((month) => {
+    setActiveMonth(months.indexOf(month));
+  }, []);
 
-  const clearList = () => {
+  const clearList = useCallback(() => {
     setActiveMonth(null);
-  };
+  }, []);
 
   return (
     <div className="app">
       <div className="months">
-        {MONTHS.map((month, index) => (
+        {months.map((month, index) => (
           <Month
             month={month}
             key={index}
-            length={usersByMonth[index] ? usersByMonth[index].length : 0}
+            length={usersByMonth[index]?.length ?? 0}
             onMouseLeave={clearList}
             onMouseEnter={handleMonthEnter}
           />
         ))}
       </div>
       <div className="user-list">
-        {activeMonth !== null && usersByMonth !== [] && (
+        {activeMonth !== null && usersByMonth.length !== 0 && (
           <UserList users={usersByMonth[activeMonth]} />
         )}
       </div>

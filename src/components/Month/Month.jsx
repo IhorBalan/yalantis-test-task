@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 //styles
 import "./Month.scss";
@@ -12,7 +12,7 @@ const Month = ({ onMouseEnter, onMouseLeave, month, length }) => {
     onMouseLeave();
   };
 
-  const getClassName = () => {
+  const className = useMemo(() => {
     if (length === undefined) return "gray";
 
     return length > 10
@@ -22,11 +22,11 @@ const Month = ({ onMouseEnter, onMouseLeave, month, length }) => {
       : length > 2
       ? "blue"
       : "gray";
-  };
+  }, [length]);
 
   return (
     <div
-      className={`months__month ${getClassName()}`}
+      className={`months__month ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
