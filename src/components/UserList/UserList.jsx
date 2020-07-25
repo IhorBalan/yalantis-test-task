@@ -5,13 +5,11 @@ import "./UserList.scss";
 
 const UserList = ({ users }) => (
   <div className="user-list__list">
-    {users.map((user) => {
-      return (
-        <div className="user-list__item" key={user.id}>
-          {user.firstName} {user.lastName}
-        </div>
-      );
-    })}
+    {users.map((user) => (
+      <div className="user-list__item" key={user.id}>
+        {user.firstName} {user.lastName}
+      </div>
+    ))}
   </div>
 );
 
